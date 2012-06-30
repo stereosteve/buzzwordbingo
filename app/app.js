@@ -30,6 +30,7 @@ function GameCtrl($scope, $routeParams) {
   })
 
   $scope.toggleCell = function(cell) {
+    if (cell.num === 12) return
     var board = $scope.board
     if (cell.marked) {
       cell.marked = false
