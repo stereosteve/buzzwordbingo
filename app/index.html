@@ -21,6 +21,7 @@
               <a class="brand" href="#">Buzzword Bingo</a>
             </li>
             <li><a href="#lobby">Lobby</a></li>
+            <li><a href="#testroom">Test Room</a></li>
           </ul>
 
           <ul class="nav pull-right">
@@ -48,8 +49,23 @@
       <% }) %>
     </script>
 
+    <script id="room_template" type="text/x-underscore-template">
+      <div class="container-fluid">
+        <div class="row-fluid">
+          <div class="span2 well">
+            <h2>Room Name</h2>
+          </div>
+          <div class="span8 my_board">
+            <h2>My Board</h2>
+          </div>
+          <div class="span2 well">
+              <h2>News Feed</h2>
+          </div>
+        </div>
+      </div>
+    </script>
+
     <script id="board_template" type="text/x-underscore-template">
-      <h1><%= name %></h1>
       <table>
         <tr>
           <% vocab.forEach(function(word, index) { %>

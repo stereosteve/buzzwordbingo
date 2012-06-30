@@ -5,7 +5,10 @@ table {
   height: 100%;
 }
 table, td {
-  border: 1px solid #333;
+  border: 1px solid #ccc;
+}
+td {
+  padding: 5px;
 }
 
 .cell {
@@ -14,5 +17,5 @@ table, td {
   text-align: center;
 }
 .cell.marked {
-  background: red;
+  background: rgba(0,255,0,0.5);
 }

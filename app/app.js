@@ -30,6 +30,13 @@ var WelcomeView = Backbone.View.extend({
 })
 
 
+var RoomView = Backbone.View.extend({
+  render: function() {
+    this.$el.html(templates.room())
+    return this
+  }
+})
+
 
 
 var Router = Backbone.Router.extend({
@@ -37,6 +44,7 @@ var Router = Backbone.Router.extend({
     "": "welcome",
     "lobby": "lobby",
     "rooms/:id": "room",
+    "testroom": "testroom",
   },
   welcome: function() {
     container.html(new WelcomeView().render().el)
@@ -44,14 +52,18 @@ var Router = Backbone.Router.extend({
   lobby: function() {
     container.html(templates.lobby(rooms))
   },
+  testroom: function() {
+    container.html(new RoomView().render().el)
+  },
   room: function(id) {
 
+    var roomView = new RoomView().render()
+
     var roomid = id
-    socket.emit('join', id, function(board) {
-      console.log(board)
-      var $room = $(templates.board(board))
-      $room.find("[data-num=12]").addClass('marked')
-      $room.on('click .cell', function(ev, other) {
+    socket.emit('join', roomid, function(board) {
+      var $board = $(templates.board(board))
+      $board.find("[data-num=12]").addClass('marked')
+      $board.on('click .cell', function(ev, other) {
         var $cell = $(ev.target)
         if ($cell.data('num') === 12) {
           return false
@@ -65,9 +77,10 @@ var Router = Backbone.Router.extend({
           socket.emit('cell marked', $cell.data('num'))
         }
       })
-      container.html($room)
+      roomView.$el.find('.my_board').html($board)
     })
 
+    container.html(roomView.el)
 
   },
 })
@@ -81,7 +94,7 @@ $(function() {
   function loadTemplate(name) {
     templates[name] = _.template($('#' + name + '_template').text())
   }
-  _.each(['welcome', 'lobby', 'board'], function(name) { loadTemplate(name) })
+  _.each(['welcome', 'lobby', 'board', 'room'], function(name) { loadTemplate(name) })
 
   socket.emit('nick', "Player " + Math.random() * 100)
   socket.on('rooms', function(data) {
