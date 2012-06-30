@@ -11,7 +11,20 @@
   </head>
   <body>
 
+    <div>
+      <a href="#">Welcome</a>
+      <a href="#lobby">Lobby</a>
+    </div>
+
     <div id="container"></div>
+
+    <script id="welcome_template" type="text/x-underscore-template">
+      <h1>Welcome</h1>
+      <form>
+        <input type="text" name="nick" />
+        <input type="submit" value="Play!" />
+      </form>
+    </script>
 
     <script id="lobby_template" type="text/x-underscore-template">
       <h1>Lobby</h1>
@@ -25,7 +38,7 @@
       <table>
         <tr>
           <% vocab.forEach(function(word, index) { %>
-            <td><%= word %></td>
+            <td class="cell" data-num="<%= index %>"><%= word %></td>
             <% if ((index + 1) % 5 === 0) { %></tr><% } %>
           <% }) %>
       </table>

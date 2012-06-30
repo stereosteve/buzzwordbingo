@@ -25,6 +25,12 @@ app.use(express.static(__dirname + '/app'))
 var io = require('socket.io').listen(app)
 io.sockets.on('connection', function(socket) {
   socket.emit('rooms', rooms)
+  socket.on('cell marked', function(num) {
+    console.log('marked', num)
+  })
+  socket.on('cell unmarked', function(num) {
+    console.log('unmarked', num)
+  })
 })
 
 
