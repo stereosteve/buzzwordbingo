@@ -6,6 +6,9 @@
 var buzzwordbingo = angular.module('buzzwordbingo', [])
 
 var socket = io.connect('/')
+socket.on('winner', function() {
+  debugger
+})
 
 function LobbyCtrl($scope) {
   socket.emit('world', function(w) {
@@ -21,7 +24,17 @@ function GameCtrl($scope, $routeParams) {
   })
 
   $scope.toggleCell = function(cell) {
-    console.log(cell)
+    var board = $scope.board
+    if (cell.marked) {
+      cell.marked = false
+      cell.classes = ''
+      socket.emit('unmarkCell', board.gameId, cell)
+    }
+    else {
+      cell.marked = true
+      cell.classes = 'marked'
+      socket.emit('markCell', board.gameId, cell)
+    }
   }
 }
 

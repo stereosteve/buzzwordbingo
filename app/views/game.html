@@ -8,7 +8,7 @@
     <div class="span8 my_board">
       <table>
         <tr ng-repeat="row in board.rows">
-          <td class="cell" ng-repeat="cell in row" ng-click="toggleCell(cell)">{{cell}}</td>
+          <td class="cell" ng-class="cell.classes" ng-repeat="cell in row" ng-click="toggleCell(cell)">{{cell.word}}</td>
         </tr>
       </table>
     </div>

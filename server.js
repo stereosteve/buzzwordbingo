@@ -76,6 +76,10 @@ io.sockets.on('connection', function(socket) {
     socket.broadcast.emit('world', world)
   }
 
+  socket.on('world', function(callback) {
+    callback(world)
+  })
+
   // joinGame
   // leaveGame
   // markCell
@@ -95,12 +99,12 @@ io.sockets.on('connection', function(socket) {
     callback(board)
   })
 
-  socket.on('markCell', function(gameId, cellNum) {
+  socket.on('markCell', function(gameId, cell) {
     var game = world.findGame(gameId)
     var board = me.boards[gameId]
-    board.markCell(cellNum)
+    board.markCell(cell.num)
 
-    var ev = me.nick + " marked " + board.getCell(cellNum)
+    var ev = me.nick + " marked " + cell.word
     game.events.push(ev)
     updateWorld(ev)
 
@@ -112,9 +116,9 @@ io.sockets.on('connection', function(socket) {
     }
   })
 
-  socket.on('unmarkCell', function(gameId, cellNum) {
+  socket.on('unmarkCell', function(gameId, cell) {
     var board = me.boards[gameId]
-    board.unmarkCell(cellNum)
+    board.unmarkCell(cell.num)
   })
 
 
