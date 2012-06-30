@@ -37,7 +37,7 @@
       <h1><%= name %></h1>
       <table>
         <tr>
-          <% cells.forEach(function(word, index) { %>
+          <% vocab.forEach(function(word, index) { %>
             <td class="cell" data-num="<%= index %>"><%= word %></td>
             <% if ((index + 1) % 5 === 0) { %></tr><% } %>
           <% }) %>

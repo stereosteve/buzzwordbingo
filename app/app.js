@@ -47,9 +47,13 @@ var Router = Backbone.Router.extend({
     socket.emit('join', id, function(board) {
       console.log(board)
       var $room = $(templates.board(board))
+      $room.find("[data-num=12]").addClass('marked')
       $room.on('click .cell', function(ev, other) {
         var $cell = $(ev.target)
-        if ($cell.hasClass('marked')) {
+        if ($cell.data('num') === 12) {
+          return false
+        }
+        else if ($cell.hasClass('marked')) {
           $cell.removeClass('marked')
           socket.emit('cell unmarked', $cell.data('num'))
         }
@@ -81,6 +85,11 @@ $(function() {
     rooms = data
     router = new Router()
     Backbone.history.start()
+  })
+
+  socket.on('winner', function() {
+    console.log("Winnar!")
+    debugger
   })
 
 })
