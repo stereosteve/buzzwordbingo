@@ -7,22 +7,37 @@
     <script src="/vendor/jquery.js"></script>
     <script src="/vendor/backbone.js"></script>
     <script src="/app.js"></script>
+
+    <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
 
-    <div>
-      <a href="#">Welcome</a>
-      <a href="#lobby">Lobby</a>
+    <div class="navbar">
+      <div class="navbar-inner">
+        <div class="container">
+          <ul class="nav">
+            <li class="active">
+              <a class="brand" href="#">Buzzword Bingo</a>
+            </li>
+            <li><a href="#lobby">Lobby</a></li>
+          </ul>
+
+          <ul class="nav pull-right">
+            <li><a id="nav-nick" href="#">Guest</a></li>
+          </ul>
+
+        </div>
+      </div>
     </div>
 
     <div id="container"></div>
 
     <script id="welcome_template" type="text/x-underscore-template">
       <h1>Welcome</h1>
-      <form>
-        <input type="text" class="nick" />
-        <input type="submit" value="Play!" />
+      <form class="form-inline">
+        <input type="text" class="nick" placeholder="set your nickname..." />
+        <input class="btn btn-success" type="submit" value="Play!" />
       </form>
     </script>
 

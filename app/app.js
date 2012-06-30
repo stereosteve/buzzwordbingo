@@ -17,6 +17,7 @@ var WelcomeView = Backbone.View.extend({
     var nick = this.$el.find('.nick').val()
     if (nick) {
       socket.emit('nick', nick)
+      $("#nav-nick").text(nick)
     }
     else {
       alert("Nick is required")
@@ -27,6 +28,8 @@ var WelcomeView = Backbone.View.extend({
     return this
   }
 })
+
+
 
 
 var Router = Backbone.Router.extend({
@@ -80,7 +83,7 @@ $(function() {
   }
   _.each(['welcome', 'lobby', 'board'], function(name) { loadTemplate(name) })
 
-  socket.emit('nick', "Stevie Blackfingers")
+  socket.emit('nick', "Player " + Math.random() * 100)
   socket.on('rooms', function(data) {
     rooms = data
     router = new Router()

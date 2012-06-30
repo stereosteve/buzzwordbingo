@@ -24,11 +24,14 @@ app.use(express.static(__dirname + '/app'))
 
 var io = require('socket.io').listen(app)
 io.sockets.on('connection', function(socket) {
+
   socket.emit('rooms', rooms)
+
   socket.on('nick', function(nick) {
     console.log('Welcome', nick)
     socket.nick = nick
   })
+
   socket.on('join', function(roomid, callback) {
     console.log(socket.nick, 'joined', roomid)
     var room = _.find(rooms, function(r) { return r.id === roomid })
@@ -41,6 +44,7 @@ io.sockets.on('connection', function(socket) {
     socket.board = board
     callback(board)
   })
+
   socket.on('cell marked', function(num) {
     var marked = socket.board.marked
     marked[num] = true
@@ -63,14 +67,17 @@ io.sockets.on('connection', function(socket) {
 
     if (winner) {
       socket.emit('winner')
+      socket.broadcast.emit('winner', socket.nick)
     }
 
   })
+
   socket.on('cell unmarked', function(num) {
     console.log(socket.nick, 'unmarked', num)
     socket.board.marked[num] = false
     console.log(socket.board.marked)
   })
+
 })
 
 
