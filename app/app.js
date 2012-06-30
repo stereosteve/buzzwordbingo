@@ -14,7 +14,9 @@ var Router = Backbone.Router.extend({
   lobby: function() {
     container.html(templates.lobby(rooms))
   },
-  room: function() {
+  room: function(id) {
+    var room = _.find(rooms, function(room) { return room.id === id })
+    container.html(templates.room(room))
   },
 })
 
@@ -26,7 +28,7 @@ $(function() {
   function loadTemplate(name) {
     templates[name] = _.template($('#' + name + '_template').text())
   }
-  _.each(['lobby'], function(name) { loadTemplate(name) })
+  _.each(['lobby', 'room'], function(name) { loadTemplate(name) })
 
   socket.on('rooms', function(data) {
     rooms = data

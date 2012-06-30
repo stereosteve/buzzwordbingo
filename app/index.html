@@ -7,6 +7,7 @@
     <script src="/vendor/jquery.js"></script>
     <script src="/vendor/backbone.js"></script>
     <script src="/app.js"></script>
+    <link rel="stylesheet" href="/style.css" />
   </head>
   <body>
 
@@ -15,8 +16,20 @@
     <script id="lobby_template" type="text/x-underscore-template">
       <h1>Lobby</h1>
       <% rooms.forEach(function(room) { %>
-        <h2><%= room.name %></h2>
+        <h2><a href="#rooms/<%= room.id %>"><%= room.name %></a></h2>
       <% }) %>
+    </script>
+
+    <script id="room_template" type="text/x-underscore-template">
+      <h1><%= name %></h1>
+      <table>
+        <tr>
+          <% vocab.forEach(function(word, index) { %>
+            <td><%= word %></td>
+            <% if ((index + 1) % 5 === 0) { %></tr><% } %>
+          <% }) %>
+      </table>
+
     </script>
 
   </body>

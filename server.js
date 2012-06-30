@@ -1,11 +1,19 @@
 var express = require('express')
+  , _ = require('underscore')
 
 var rooms = [
   {
+    id: 'testing',
+    name: 'Testing',
+    vocab: _.range(25),
+  },
+  {
+    id: 'ruby-on-rails',
     name: 'Ruby on Rails',
     vocab: ['cucumber', 'TDD', 'BDD', 'DHH', 'Rack', 'REST', 'MVC', 'DCI' ],
   },
   {
+    id: 'node-js',
     name: 'Node.js',
     vocab: ['streams', 'Event Emitter', 'Ryan Dahl', 'npm', 'socket.io', 'realtime'],
   }
