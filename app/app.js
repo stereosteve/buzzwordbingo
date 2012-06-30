@@ -19,13 +19,16 @@ function LobbyCtrl($scope) {
 }
 
 function GameCtrl($scope, $routeParams) {
-  socket.emit('joinGame', $routeParams.id, function(b) {
+  var gameId = $routeParams.id
+
+  socket.emit('joinGame', gameId, function(b) {
     $scope.board = b
     $scope.$apply()
   })
 
   socket.on('world', function(w) {
     $scope.world = w
+    $scope.game = w.games[gameId]
     $scope.$apply()
   })
 
@@ -35,14 +38,15 @@ function GameCtrl($scope, $routeParams) {
     if (cell.marked) {
       cell.marked = false
       cell.classes = ''
-      socket.emit('unmarkCell', board.gameId, cell)
+      socket.emit('unmarkCell', gameId, cell)
     }
     else {
       cell.marked = true
       cell.classes = 'marked'
-      socket.emit('markCell', board.gameId, cell)
+      socket.emit('markCell', gameId, cell)
     }
   }
+
 }
 
 buzzwordbingo.config(function($routeProvider) {

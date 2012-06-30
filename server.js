@@ -19,13 +19,13 @@ var io = require('socket.io').listen(app)
 var world = {
   userCount: 0,
   users: [],
-  games: [],
+  games: {},
   boards: [],
   events: [],
 }
 
 world.findGame = function(id) {
-  return _.find(world.games, function(g) { return g.id == id })
+  return world.games[id]
 }
 
 /**
@@ -49,8 +49,9 @@ _.each([
   g.id = slugs(g.name)
   g.userCount = 0
   g.users = {}
+  g.boards = {}
   g.events = []
-  world.games.push(g)
+  world.games[g.id] = g
 })
 
 /**
@@ -87,15 +88,17 @@ io.sockets.on('connection', function(socket) {
   // setNick
 
   socket.on('joinGame', function(gameId, callback) {
-    // generate board:  gameId-userId
-    var game = world.findGame(gameId)
+    var game = world.games[gameId]
     var board = new Board({
       gameId: gameId,
       userId: me.id,
       vocab: game.vocab
     })
-    me.games[gameId] = game
+    //me.games[gameId] = game
     me.boards[gameId] = board
+    //game.boards[board.id] = board
+    game.users[me.id] = me
+    updateWorld()
     callback(board)
   })
 

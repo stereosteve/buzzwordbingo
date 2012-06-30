@@ -2,7 +2,8 @@
   <div class="row-fluid">
 
     <div class="span2 roster">
-      <h1>Yo Dawg</h1>
+      <h3>{{game.name}}</h3>
+      <p ng-repeat="user in game.users">{{user.nick}}</p>
     </div>
 
     <div class="span8 my_board">
@@ -14,7 +15,8 @@
     </div>
 
     <div class="span2 newsfeed">
-      <p ng-repeat="ev in world.events">{{ev}}</p>
+      <h3>Events</h3>
+      <p ng-repeat="ev in game.events">{{ev}}</p>
     </div>
 
   </div>
