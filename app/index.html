@@ -5,13 +5,14 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="/vendor/underscore.js"></script>
     <script src="/vendor/jquery.js"></script>
-    <script src="/vendor/backbone.js"></script>
+    <script src="/vendor/angular.js"></script>
+
     <script src="/app.js"></script>
 
     <link rel="stylesheet" href="/vendor/bootstrap/css/bootstrap.css" />
     <link rel="stylesheet" href="/style.css" />
   </head>
-  <body>
+  <body ng-app="buzzwordbingo">
 
     <div class="navbar">
       <div class="navbar-inner">
@@ -30,39 +31,7 @@
       </div>
     </div>
 
-    <div id="container"></div>
-
-    <script id="lobby_template" type="text/x-underscore-template">
-      <div class="container">
-
-        <div class="well">
-          <h1>Welcome</h1>
-          <form class="form-inline">
-            <input type="text" class="nick" placeholder="set your nickname..." />
-            <input class="btn btn-success" type="submit" value="Play!" />
-          </form>
-        </div>
-
-        <h1>Games</h1>
-        <% games.forEach(function(game) { %>
-          <h2><a href="#game/<%= game.id %>"><%= game.name %></a></h2>
-          <p><%= game.userCount %> Players</p>
-        <% }) %>
-
-      </div>
-    </script>
-
-
-
-    <script id="game_template" type="text/x-underscore-template">
-      <div class="container-fluid">
-        <div class="row-fluid">
-          <div class="span2 roster"></div>
-          <div class="span8 my_board"></div>
-          <div class="span2 newsfeed"></div>
-        </div>
-      </div>
-    </script>
+    <div ng-view></div>
 
 
     <script id="roster_template" type="text/x-underscore-template">
@@ -81,13 +50,6 @@
     </script>
 
     <script id="board_template" type="text/x-underscore-template">
-      <table>
-        <tr>
-          <% cells.forEach(function(word, index) { %>
-            <td class="cell" data-num="<%= index %>"><%= word %></td>
-            <% if ((index + 1) % 5 === 0) { %></tr><% } %>
-          <% }) %>
-      </table>
     </script>
 
 

@@ -1,0 +1,20 @@
+<div class="container-fluid">
+  <div class="row-fluid">
+
+    <div class="span2 roster">
+      <h1>Yo Dawg</h1>
+    </div>
+
+    <div class="span8 my_board">
+      <table>
+        <tr ng-repeat="row in board.rows">
+          <td class="cell" ng-repeat="cell in row" ng-click="toggleCell(cell)">{{cell}}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="span2 newsfeed">
+    </div>
+
+  </div>
+</div>
