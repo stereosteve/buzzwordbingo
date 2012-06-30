@@ -111,8 +111,8 @@ io.sockets.on('connection', function(socket) {
     if (board.isWinner()) {
       var win = me.nick + " got BINGO!"
       game.events.push(win)
+      updateWorld(win)
       socket.emit('winner')
-      updateWorld(ev)
     }
   })
 

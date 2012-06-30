@@ -7,7 +7,8 @@ var buzzwordbingo = angular.module('buzzwordbingo', [])
 
 var socket = io.connect('/')
 socket.on('winner', function() {
-  debugger
+  //debugger
+  console.log("BINGO")
 })
 
 function LobbyCtrl($scope) {
@@ -20,6 +21,11 @@ function LobbyCtrl($scope) {
 function GameCtrl($scope, $routeParams) {
   socket.emit('joinGame', $routeParams.id, function(b) {
     $scope.board = b
+    $scope.$apply()
+  })
+
+  socket.on('world', function(w) {
+    $scope.world = w
     $scope.$apply()
   })
 
