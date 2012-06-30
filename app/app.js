@@ -16,7 +16,7 @@ var WelcomeView = Backbone.View.extend({
     ev.preventDefault()
     var nick = this.$el.find('.nick').val()
     if (nick) {
-      socket.emit('nick', nick)
+      socket.emit('setNick', nick)
       $("#nav-nick").text(nick)
     }
     else {
@@ -96,9 +96,8 @@ $(function() {
   }
   _.each(['welcome', 'lobby', 'board', 'room'], function(name) { loadTemplate(name) })
 
-  socket.emit('nick', "Player " + Math.random() * 100)
-  socket.on('rooms', function(data) {
-    rooms = data
+  socket.on('world', function(data) {
+    debugger
     router = new Router()
     Backbone.history.start()
   })

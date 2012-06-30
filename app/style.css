@@ -13,7 +13,7 @@ td {
 
 .cell {
   width: 20%;
-  height: 20%;
+  height: 85px;
   text-align: center;
 }
 .cell.marked {
