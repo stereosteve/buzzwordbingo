@@ -1,5 +1,4 @@
-
-var rooms = []
+var world
   , templates = {}
   , container
   , router
@@ -8,7 +7,7 @@ var socket = io.connect('/')
 
 
 
-var WelcomeView = Backbone.View.extend({
+var LobbyView = Backbone.View.extend({
   events: {
     "submit form": "setNick"
   },
@@ -24,64 +23,86 @@ var WelcomeView = Backbone.View.extend({
     }
   },
   render: function() {
-    this.$el.html(templates.welcome())
+    this.$el.html(templates.lobby(world))
     return this
   }
 })
 
 
-var RoomView = Backbone.View.extend({
+
+
+
+var GameView = Backbone.View.extend({
   render: function() {
-    this.$el.html(templates.room())
+    this.$el.html(templates.game())
+    return this
+  },
+})
+
+
+var BoardView = Backbone.View.extend({
+  events: {
+    'click .cell': 'cellClicked'
+  },
+  render: function() {
+    var board = this.model
+    var $el = this.$el
+    $el.html(templates.board(board))
+    $el.find("[data-num=12]").addClass('marked')
+    return this
+  },
+  cellClicked: function(ev) {
+    var $cell = $(ev.target)
+    var board = this.model
+    if ($cell.data('num') === 12) {
+      return false
+    }
+    else if ($cell.hasClass('marked')) {
+      $cell.removeClass('marked')
+      socket.emit('unmarkCell', board.gameId, $cell.data('num'))
+    }
+    else {
+      $cell.addClass('marked')
+      socket.emit('markCell', board.gameId, $cell.data('num'))
+    }
+  },
+})
+
+
+var NewsfeedView = Backbone.View.extend({
+  initialize: function() {
+    var self = this
+    socket.on('world', function(world) {
+      console.log("yeehaw")
+      self.render()
+    })
+  },
+  render: function() {
+    this.$el.html(templates.newsfeed(world))
     return this
   }
 })
+
 
 
 
 var Router = Backbone.Router.extend({
   routes: {
-    "": "welcome",
-    "lobby": "lobby",
-    "rooms/:id": "room",
-    "testroom": "testroom",
-  },
-  welcome: function() {
-    container.html(new WelcomeView().render().el)
+    "": "lobby",
+    "game/:id": "game",
   },
   lobby: function() {
-    container.html(templates.lobby(rooms))
+    container.html(new LobbyView().render().el)
   },
-  testroom: function() {
-    container.html(new RoomView().render().el)
-  },
-  room: function(id) {
-
-    var roomView = new RoomView().render()
-
-    var roomid = id
-    socket.emit('join', roomid, function(board) {
-      var $board = $(templates.board(board))
-      $board.find("[data-num=12]").addClass('marked')
-      $board.on('click .cell', function(ev, other) {
-        var $cell = $(ev.target)
-        if ($cell.data('num') === 12) {
-          return false
-        }
-        else if ($cell.hasClass('marked')) {
-          $cell.removeClass('marked')
-          socket.emit('cell unmarked', $cell.data('num'))
-        }
-        else {
-          $cell.addClass('marked')
-          socket.emit('cell marked', $cell.data('num'))
-        }
-      })
-      roomView.$el.find('.my_board').html($board)
+  game: function(gameid) {
+    var gameView = new GameView().render()
+    var newsfeedView = new NewsfeedView().render()
+    gameView.$el.find('.newsfeed').html(newsfeedView.el)
+    socket.emit('joinGame', gameid, function(board) {
+      var boardView = new BoardView({model: board}).render()
+      gameView.$el.find('.my_board').html(boardView.el)
     })
-
-    container.html(roomView.el)
-
+    container.html(gameView.el)
   },
 })
 
@@ -94,12 +115,16 @@ $(function() {
   function loadTemplate(name) {
     templates[name] = _.template($('#' + name + '_template').text())
   }
-  _.each(['welcome', 'lobby', 'board', 'room'], function(name) { loadTemplate(name) })
+  _.each(['lobby', 'game', 'board', 'newsfeed'], function(name) { loadTemplate(name) })
 
+  var started = false
   socket.on('world', function(data) {
-    debugger
-    router = new Router()
-    Backbone.history.start()
+    world = data
+    if (!started) {
+      started = true
+      router = new Router()
+      Backbone.history.start()
+    }
   })
 
   socket.on('winner', function() {
@@ -108,3 +133,4 @@ $(function() {
   })
 
 })
+

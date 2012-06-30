@@ -20,8 +20,6 @@
             <li class="active">
               <a class="brand" href="#">Buzzword Bingo</a>
             </li>
-            <li><a href="#lobby">Lobby</a></li>
-            <li><a href="#testroom">Test Room</a></li>
           </ul>
 
           <ul class="nav pull-right">
@@ -34,47 +32,68 @@
 
     <div id="container"></div>
 
-    <script id="welcome_template" type="text/x-underscore-template">
-      <h1>Welcome</h1>
-      <form class="form-inline">
-        <input type="text" class="nick" placeholder="set your nickname..." />
-        <input class="btn btn-success" type="submit" value="Play!" />
-      </form>
-    </script>
-
     <script id="lobby_template" type="text/x-underscore-template">
-      <h1>Lobby</h1>
-      <% rooms.forEach(function(room) { %>
-        <h2><a href="#rooms/<%= room.id %>"><%= room.name %></a></h2>
-      <% }) %>
+      <div class="container">
+
+        <div class="well">
+          <h1>Welcome</h1>
+          <form class="form-inline">
+            <input type="text" class="nick" placeholder="set your nickname..." />
+            <input class="btn btn-success" type="submit" value="Play!" />
+          </form>
+        </div>
+
+        <h1>Games</h1>
+        <% games.forEach(function(game) { %>
+          <h2><a href="#game/<%= game.id %>"><%= game.name %></a></h2>
+          <p><%= game.userCount %> Players</p>
+        <% }) %>
+
+      </div>
     </script>
 
-    <script id="room_template" type="text/x-underscore-template">
+
+
+    <script id="game_template" type="text/x-underscore-template">
       <div class="container-fluid">
         <div class="row-fluid">
-          <div class="span2 well">
-            <h2>Room Name</h2>
-          </div>
-          <div class="span8 my_board">
-            <h2>My Board</h2>
-          </div>
-          <div class="span2 well">
-              <h2>News Feed</h2>
-          </div>
+          <div class="span2 roster"></div>
+          <div class="span8 my_board"></div>
+          <div class="span2 newsfeed"></div>
         </div>
+      </div>
+    </script>
+
+
+    <script id="roster_template" type="text/x-underscore-template">
+      <div class="well">
+        <h2>Game Name</h2>
+      </div>
+    </script>
+
+    <script id="newsfeed_template" type="text/x-underscore-template">
+      <div class="well">
+        <h2>Newsfeed</h2>
+        <% events.forEach(function(ev) { %>
+          <p><%= ev %></p>
+        <% }) %>
       </div>
     </script>
 
     <script id="board_template" type="text/x-underscore-template">
       <table>
         <tr>
-          <% vocab.forEach(function(word, index) { %>
+          <% cells.forEach(function(word, index) { %>
             <td class="cell" data-num="<%= index %>"><%= word %></td>
             <% if ((index + 1) % 5 === 0) { %></tr><% } %>
           <% }) %>
       </table>
-
     </script>
+
+
+    <script id="some_template" type="text/x-underscore-template">
+    </script>
+
 
   </body>
 </html>

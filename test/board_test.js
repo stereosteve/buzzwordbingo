@@ -16,4 +16,14 @@ describe('board', function() {
     assert.equal(board.countMarked(), 2)
   })
 
+  it('should know a winner', function() {
+    var board = new Board()
+    board.markCell(0)
+    board.markCell(1)
+    board.markCell(2)
+    board.markCell(3)
+    board.markCell(4)
+    assert.equal(board.isWinner(), true)
+  })
+
 })
