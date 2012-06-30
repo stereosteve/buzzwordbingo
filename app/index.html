@@ -21,7 +21,7 @@
     <script id="welcome_template" type="text/x-underscore-template">
       <h1>Welcome</h1>
       <form>
-        <input type="text" name="nick" />
+        <input type="text" class="nick" />
         <input type="submit" value="Play!" />
       </form>
     </script>
@@ -33,11 +33,11 @@
       <% }) %>
     </script>
 
-    <script id="room_template" type="text/x-underscore-template">
+    <script id="board_template" type="text/x-underscore-template">
       <h1><%= name %></h1>
       <table>
         <tr>
-          <% vocab.forEach(function(word, index) { %>
+          <% cells.forEach(function(word, index) { %>
             <td class="cell" data-num="<%= index %>"><%= word %></td>
             <% if ((index + 1) % 5 === 0) { %></tr><% } %>
           <% }) %>

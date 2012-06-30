@@ -6,6 +6,29 @@ var rooms = []
 
 var socket = io.connect('/')
 
+
+
+var WelcomeView = Backbone.View.extend({
+  events: {
+    "submit form": "setNick"
+  },
+  setNick: function(ev) {
+    ev.preventDefault()
+    var nick = this.$el.find('.nick').val()
+    if (nick) {
+      socket.emit('nick', nick)
+    }
+    else {
+      alert("Nick is required")
+    }
+  },
+  render: function() {
+    this.$el.html(templates.welcome())
+    return this
+  }
+})
+
+
 var Router = Backbone.Router.extend({
   routes: {
     "": "welcome",
@@ -13,26 +36,32 @@ var Router = Backbone.Router.extend({
     "rooms/:id": "room",
   },
   welcome: function() {
-    container.html(templates.welcome())
+    container.html(new WelcomeView().render().el)
   },
   lobby: function() {
     container.html(templates.lobby(rooms))
   },
   room: function(id) {
-    var room = _.find(rooms, function(room) { return room.id === id })
-    var $room = $(templates.room(room))
-    $room.on('click .cell', function(ev, other) {
-      var $cell = $(ev.target)
-      if ($cell.hasClass('marked')) {
-        $cell.removeClass('marked')
-        socket.emit('cell unmarked', $cell.data('num'))
-      }
-      else {
-        $cell.addClass('marked')
-        socket.emit('cell marked', $cell.data('num'))
-      }
+
+    var roomid = id
+    socket.emit('join', id, function(board) {
+      console.log(board)
+      var $room = $(templates.board(board))
+      $room.on('click .cell', function(ev, other) {
+        var $cell = $(ev.target)
+        if ($cell.hasClass('marked')) {
+          $cell.removeClass('marked')
+          socket.emit('cell unmarked', $cell.data('num'))
+        }
+        else {
+          $cell.addClass('marked')
+          socket.emit('cell marked', $cell.data('num'))
+        }
+      })
+      container.html($room)
     })
-    container.html($room)
+
+
   },
 })
 
@@ -45,8 +74,9 @@ $(function() {
   function loadTemplate(name) {
     templates[name] = _.template($('#' + name + '_template').text())
   }
-  _.each(['welcome', 'lobby', 'room'], function(name) { loadTemplate(name) })
+  _.each(['welcome', 'lobby', 'board'], function(name) { loadTemplate(name) })
 
+  socket.emit('nick', "Stevie Blackfingers")
   socket.on('rooms', function(data) {
     rooms = data
     router = new Router()
