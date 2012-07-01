@@ -93,6 +93,10 @@ io.sockets.on('connection', function(socket) {
   // unmarkCell
   // setNick
 
+  socket.on('game.get', function(gameId, callback) {
+    callback(null, world.games[gameId])
+  })
+
   socket.on('joinGame', function(gameId, callback) {
     if (me.boards[gameId]) {
       callback(me.boards[gameId])

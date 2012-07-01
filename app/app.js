@@ -24,7 +24,7 @@ socket.on('me', function(me) {
  * Controllers
  *
  */
-function LobbyCtrl($scope, $rootScope) {
+function LobbyCtrl($scope, $location) {
   socket.emit('world', function(w) {
     $scope.world = w
     $scope.$apply()
@@ -32,6 +32,10 @@ function LobbyCtrl($scope, $rootScope) {
   $scope.$watch('nick', function(nick) {
     socket.emit('updateNick', nick)
   })
+  $scope.editGame = function(game) {
+    console.log("edit", game)
+    $location.path('game/' + game.id + '/edit')
+  }
 }
 
 function GameCtrl($scope, $routeParams) {
@@ -67,6 +71,23 @@ function GameCtrl($scope, $routeParams) {
 }
 
 
+var ctrl = {}
+ctrl.game = {}
+ctrl.game.edit = function($scope, $routeParams) {
+
+  var gameId = $routeParams.id
+  socket.emit('game.get', gameId, function(err, game) {
+    $scope.game = game
+    $scope.$apply()
+  })
+
+  $scope.addWord = function() {
+    // socket.emit('game.addWord', $scope.newWord)
+    $scope.game.vocab.push($scope.newWord)
+    $scope.newWord = undefined
+  }
+}
+
 
 
 /**
@@ -76,6 +97,7 @@ function GameCtrl($scope, $routeParams) {
 buzzwordbingo.config(function($routeProvider) {
   $routeProvider.when('/lobby', {templateUrl: '/views/lobby.html', controller: LobbyCtrl});
   $routeProvider.when('/game/:id', {templateUrl: '/views/game.html', controller: GameCtrl});
+  $routeProvider.when('/game/:id/edit', {templateUrl: '/views/game-edit.html', controller: ctrl.game.edit});
   $routeProvider.otherwise({redirectTo: '/lobby'})
 })
 

@@ -7,8 +7,11 @@
   </div>
 
   <h1>Games</h1>
-  <div ng-repeat="game in world.games">
+  <button class="btn btn-success"><i class="icon-plus icon-white"></i> New Game</button>
+  <div class="well" ng-repeat="game in world.games">
     <h2><a href="#game/{{game.id}}">{{game.name}}</a></h2>
+    <p>{{game.vocab.join(", ")}}</p>
+    <button class="btn" ng-click="editGame(game)"><i class="icon-pencil"></i> Setup</button>
   </div>
 
 </div>
