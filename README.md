@@ -5,3 +5,5 @@ A multiplayer bingo app.
 
 # TODO
 
+* set nickname
+* hosting

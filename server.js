@@ -68,6 +68,7 @@ io.sockets.on('connection', function(socket) {
   }
   world.userCount++
   socket.emit('world', world)
+  socket.emit('welcome', me)
 
 
   // updateWorld
@@ -89,14 +90,16 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('joinGame', function(gameId, callback) {
     var game = world.games[gameId]
+    if (me.boards[gameId]) {
+      callback(me.boards[gameId])
+      return
+    }
     var board = new Board({
       gameId: gameId,
       userId: me.id,
       vocab: game.vocab
     })
-    //me.games[gameId] = game
     me.boards[gameId] = board
-    //game.boards[board.id] = board
     game.users[me.id] = me
     updateWorld()
     callback(board)
@@ -122,6 +125,12 @@ io.sockets.on('connection', function(socket) {
   socket.on('unmarkCell', function(gameId, cell) {
     var board = me.boards[gameId]
     board.unmarkCell(cell.num)
+  })
+
+
+  socket.on('updateNick', function(nick) {
+    console.log(nick)
+    me.nick = nick
   })
 
 

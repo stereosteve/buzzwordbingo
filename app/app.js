@@ -10,11 +10,25 @@ socket.on('winner', function() {
   //debugger
   console.log("BINGO")
 })
+socket.on('me', function(me) {
+  console.log('welcome', me)
+})
 
-function LobbyCtrl($scope) {
+//buzzwordbingo
+
+
+
+/**
+ * Controllers
+ *
+ */
+function LobbyCtrl($scope, $rootScope) {
   socket.emit('world', function(w) {
     $scope.world = w
     $scope.$apply()
+  })
+  $scope.$watch('nick', function(nick) {
+    socket.emit('updateNick', nick)
   })
 }
 
@@ -49,8 +63,19 @@ function GameCtrl($scope, $routeParams) {
 
 }
 
+
+
+
+/**
+ * Routes
+ *
+ */
 buzzwordbingo.config(function($routeProvider) {
   $routeProvider.when('/lobby', {templateUrl: '/views/lobby.html', controller: LobbyCtrl});
   $routeProvider.when('/game/:id', {templateUrl: '/views/game.html', controller: GameCtrl});
   $routeProvider.otherwise({redirectTo: '/lobby'})
+})
+
+buzzwordbingo.run(function($rootScope) {
+  $rootScope.nick = "Noob " + Math.floor(Math.random() * 1000)
 })
