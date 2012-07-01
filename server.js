@@ -118,7 +118,10 @@ io.sockets.on('connection', function(socket) {
     var board = me.boards[gameId]
     board.markCell(cell.num)
 
-    var ev = me.nick + " marked " + cell.word
+    var ev = {
+      msg: me.nick + " marked " + cell.word,
+      date: new Date()
+    }
     game.events.push(ev)
     updateWorld(ev)
 

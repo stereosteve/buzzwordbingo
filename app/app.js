@@ -6,9 +6,11 @@
 var buzzwordbingo = angular.module('buzzwordbingo', [])
 
 var socket = io.connect('/')
+var gotit = false
 socket.on('winner', function(me) {
   //debugger
-  alert(me.nick + " got BINGO!")
+  if (!gotit) alert(me.nick + " got BINGO!")
+  gotit = true
 })
 socket.on('me', function(me) {
   console.log('welcome', me)
@@ -43,6 +45,7 @@ function GameCtrl($scope, $routeParams) {
   socket.on('world', function(w) {
     $scope.world = w
     $scope.game = w.games[gameId]
+    $scope.events = $scope.game.events.reverse()
     $scope.$apply()
   })
 
