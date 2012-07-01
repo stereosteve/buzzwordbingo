@@ -84,7 +84,7 @@ io.sockets.on('connection', function(socket) {
   }
 
   socket.on('world', function(callback) {
-    callback(world)
+    callback(null, world)
   })
 
   // joinGame
@@ -99,7 +99,7 @@ io.sockets.on('connection', function(socket) {
 
   socket.on('joinGame', function(gameId, callback) {
     if (me.boards[gameId]) {
-      callback(me.boards[gameId])
+      callback(null, me.boards[gameId])
       return
     }
     else if (world.games[gameId]) {
@@ -112,10 +112,10 @@ io.sockets.on('connection', function(socket) {
       me.boards[gameId] = board
       game.users[me.id] = me
       updateWorld()
-      callback(board)
+      callback(null, board)
     }
     else {
-      console.log("game not found " + gameId)
+      callback("Game not found: " + gameId)
     }
   })
 

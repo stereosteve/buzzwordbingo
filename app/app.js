@@ -25,7 +25,7 @@ socket.on('me', function(me) {
  *
  */
 function LobbyCtrl($scope, $location) {
-  socket.emit('world', function(w) {
+  socket.emit('world', function(err, w) {
     $scope.world = w
     $scope.$apply()
   })
@@ -41,7 +41,7 @@ function LobbyCtrl($scope, $location) {
 function GameCtrl($scope, $routeParams) {
   var gameId = $routeParams.id
 
-  socket.emit('joinGame', gameId, function(b) {
+  socket.emit('joinGame', gameId, function(err, b) {
     $scope.board = b
     $scope.$apply()
   })
