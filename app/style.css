@@ -19,3 +19,21 @@ td {
 .cell.marked {
   background: rgba(0,255,0,0.5);
 }
+
+.wordTile {
+  width: 33%;
+  float: left;
+}
+.wordTile .pad {
+  margin: 5px;
+  padding: 5px;
+  border-bottom: 1px solid #ccc;
+}
+.wordTile .icon-remove {
+  float: right;
+  cursor: pointer;
+  display: none;
+}
+.wordTile:hover .icon-remove {
+  display: block;
+}

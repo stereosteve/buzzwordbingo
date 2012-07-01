@@ -93,6 +93,17 @@ ctrl.game.edit = function($scope, $routeParams) {
     })
     //$scope.game.vocab.push($scope.newWord)
   }
+
+  $scope.removeWord = function(word) {
+    var params = {
+      gameId: gameId,
+      word: word,
+    }
+    socket.emit('game.removeWord', params, function(err, game) {
+      $scope.game = game
+      $scope.$apply()
+    })
+  }
 }
 
 

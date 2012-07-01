@@ -1,12 +1,15 @@
 <div class="container">
   <h1>{{game.name}}</h1>
 
-  <div ng-repeat="word in game.vocab">
-    {{word}}
+  <div class="wordTile" ng-repeat="word in game.vocab">
+    <div class="pad">
+      {{word}}
+      <i ng-click="removeWord(word)" class="icon-remove"></i>
+    </div>
   </div>
 
   <form ng-submit="addWord()">
-    <input type="text" placeholder="add word..." ng-model="newWord" />
+    <input style="margin: 5px" type="text" placeholder="add word..." ng-model="newWord" />
   </form>
 
 </div>

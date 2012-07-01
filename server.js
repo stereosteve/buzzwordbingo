@@ -97,6 +97,7 @@ io.sockets.on('connection', function(socket) {
     callback(null, world.games[gameId])
   })
 
+
   socket.on('game.addWord', function(params, callback) {
     var game = world.games[params.gameId]
     var word = params.word
@@ -111,6 +112,24 @@ io.sockets.on('connection', function(socket) {
       callback(null, game)
     }
   })
+
+  socket.on('game.removeWord', function(params, callback) {
+    var game = world.games[params.gameId]
+    var word = params.word
+    if (game && word) {
+      game.vocab = _.reject(game.vocab, function(v) { return v === word })
+      var ev = {
+        msg: me.nick + " removed " + word + " from game " + game.name,
+        date: new Date()
+      }
+      updateWorld(ev)
+      callback(null, game)
+    }
+  })
+
+
+
+
 
   socket.on('joinGame', function(gameId, callback) {
     if (me.boards[gameId]) {
