@@ -144,6 +144,6 @@ io.sockets.on('connection', function(socket) {
 /**
  * server
  */
-var port = 3000
+var port = process.env.PORT || 3000
 console.log('Buzzword Bingo on port ' + port)
 app.listen(port)
