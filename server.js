@@ -38,17 +38,21 @@ world.findGame = function(id) {
 
 _.each([
   {
-    name: 'Testing',
-    vocab: _.range(25),
+    name: 'Startups',
+    vocab: ['Mindset', 'Synergize', 'Agile', 'Software Craftsman', 'Scrum Master', 'Guru', 'Standup', 'Extreme Programming', 'Pair Programming', 'Pair Programming', 'Test Driven Development', 'Leverage', 'NoSQL', 'The Cloud', 'Low hanging fruit', 'Asks', 'Table that', 'Bandwidth', 'Incentivise', 'PAAS', 'SAAS', 'Big Data', 'Metrics', 'Sprint', 'Hackathon', 'ROI', 'Out of Scope', 'Venture', 'Venture', 'Lean', 'Seed Round', 'Angel', 'Series A', 'Market', 'Pivot', 'Hacker', 'Founder', 'Viral', 'Social', 'Gamification', 'Maximize', 'Bubble', 'Location Based', 'Mobile Platform', 'Pervasive', 'Lifestlye']
   },
   {
     name: 'Ruby on Rails',
-    vocab: ['cucumber', 'TDD', 'BDD', 'DHH', 'Rack', 'REST', 'MVC', 'DCI', 'RSpec', 'Sprockets', 'Coffee Script', 'SCSS', 'gem', 'bundler', 'rvm', 'asset pipeline', 'ActiveRecord'],
+    vocab: ['cucumber', 'TDD', 'BDD', 'DHH', 'Rack', 'REST', 'MVC', 'DCI', 'RSpec', 'Sprockets', 'Coffee Script', 'SCSS', 'gem', 'bundler', 'rvm', 'asset pipeline', 'ActiveRecord', 'NoSQL', 'resque', 'capybara', 'agile', 'craftsman', 'haml', 'helper', 'architecture', 'STI', 'Polymorphic'],
   },
   {
     name: 'Node.js',
-    vocab: ['streams', 'Event Emitter', 'Ryan Dahl', 'npm', 'socket.io', 'realtime', 'jade', 'stylus', 'less', 'express', 'web scale', 'proxy', 'callback', 'Coffee Script', 'nodeup', 'browserify'],
-  }
+    vocab: ['streams', 'Event Emitter', 'Ryan Dahl', 'npm', 'socket.io', 'realtime', 'jade', 'stylus', 'less', 'express', 'web scale', 'proxy', 'callback', 'Coffee Script', 'nodeup', 'browserify', 'NoSQL', 'Callback Hell'],
+  },
+  {
+    name: 'Testing',
+    vocab: _.range(25),
+  },
 ], function(g) {
   g.id = slugs(g.name)
   g.userCount = 0
