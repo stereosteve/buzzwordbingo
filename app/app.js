@@ -91,7 +91,6 @@ ctrl.game.edit = function($scope, $routeParams) {
       $scope.newWord = undefined
       $scope.$apply()
     })
-    //$scope.game.vocab.push($scope.newWord)
   }
 
   $scope.removeWord = function(word) {
