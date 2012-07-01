@@ -6,9 +6,9 @@
 var buzzwordbingo = angular.module('buzzwordbingo', [])
 
 var socket = io.connect('/')
-socket.on('winner', function() {
+socket.on('winner', function(me) {
   //debugger
-  console.log("BINGO")
+  alert(me.nick + " got BINGO!")
 })
 socket.on('me', function(me) {
   console.log('welcome', me)

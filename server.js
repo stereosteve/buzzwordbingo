@@ -39,7 +39,7 @@ world.findGame = function(id) {
 _.each([
   {
     name: 'Startups',
-    vocab: ['Mindset', 'Synergize', 'Agile', 'Software Craftsman', 'Scrum Master', 'Guru', 'Standup', 'Extreme Programming', 'Pair Programming', 'Pair Programming', 'Test Driven Development', 'Leverage', 'NoSQL', 'The Cloud', 'Low hanging fruit', 'Asks', 'Table that', 'Bandwidth', 'Incentivise', 'PAAS', 'SAAS', 'Big Data', 'Metrics', 'Sprint', 'Hackathon', 'ROI', 'Out of Scope', 'Venture', 'Venture', 'Lean', 'Seed Round', 'Angel', 'Series A', 'Market', 'Pivot', 'Hacker', 'Founder', 'Viral', 'Social', 'Gamification', 'Maximize', 'Bubble', 'Location Based', 'Mobile Platform', 'Pervasive', 'Lifestlye']
+    vocab: ['Mindset', 'Synergize', 'Agile', 'Software Craftsman', 'Scrum Master', 'Guru', 'Standup', 'Extreme Programming', 'Pair Programming', 'Pair Programming', 'Test Driven Development', 'Leverage', 'NoSQL', 'The Cloud', 'Low hanging fruit', 'Asks', 'Table that', 'Bandwidth', 'Incentivise', 'PAAS', 'SAAS', 'Big Data', 'Metrics', 'Sprint', 'Hackathon', 'ROI', 'Out of Scope', 'Venture', 'Venture', 'Lean', 'Seed Round', 'Angel', 'Series A', 'Market', 'Pivot', 'Hacker', 'Founder', 'Viral', 'Social', 'Gamification', 'Maximize', 'Bubble', 'Location Based', 'Mobile Platform', 'Pervasive', 'Lifestlye', 'Buzzword', 'Market', 'Driven', 'HTML5', 'webapp', 'node.js', 'multiplayer', 'immersive', 'game', 'experience', 'realize', 'profit potential']
   },
   {
     name: 'Ruby on Rails',
@@ -126,7 +126,8 @@ io.sockets.on('connection', function(socket) {
       var win = me.nick + " got BINGO!"
       game.events.push(win)
       updateWorld(win)
-      socket.emit('winner')
+      socket.emit('winner', me)
+      socket.broadcast.emit('winner', me)
     }
   })
 
