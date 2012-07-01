@@ -82,9 +82,16 @@ ctrl.game.edit = function($scope, $routeParams) {
   })
 
   $scope.addWord = function() {
-    // socket.emit('game.addWord', $scope.newWord)
-    $scope.game.vocab.push($scope.newWord)
-    $scope.newWord = undefined
+    var params = {
+      gameId: gameId,
+      word: $scope.newWord,
+    }
+    socket.emit('game.addWord', params, function(err, game) {
+      $scope.game = game
+      $scope.newWord = undefined
+      $scope.$apply()
+    })
+    //$scope.game.vocab.push($scope.newWord)
   }
 }
 

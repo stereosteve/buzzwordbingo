@@ -97,6 +97,21 @@ io.sockets.on('connection', function(socket) {
     callback(null, world.games[gameId])
   })
 
+  socket.on('game.addWord', function(params, callback) {
+    var game = world.games[params.gameId]
+    var word = params.word
+    console.log("game.addWord", params)
+    if (game && word) {
+      game.vocab.push(word)
+      var ev = {
+        msg: me.nick + " added " + word + " to game " + game.name,
+        date: new Date()
+      }
+      updateWorld(ev)
+      callback(null, game)
+    }
+  })
+
   socket.on('joinGame', function(gameId, callback) {
     if (me.boards[gameId]) {
       callback(null, me.boards[gameId])
