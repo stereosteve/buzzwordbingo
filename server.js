@@ -9,6 +9,10 @@ app.use(express.static(__dirname + '/app'))
 
 var io = require('socket.io').listen(app)
 
+io.configure(function() {
+  io.set("transports", ["xhr-polling"])
+  io.set("polling duration", 10)
+})
 
 
 
@@ -39,11 +43,11 @@ _.each([
   },
   {
     name: 'Ruby on Rails',
-    vocab: ['cucumber', 'TDD', 'BDD', 'DHH', 'Rack', 'REST', 'MVC', 'DCI' ],
+    vocab: ['cucumber', 'TDD', 'BDD', 'DHH', 'Rack', 'REST', 'MVC', 'DCI', 'RSpec', 'Sprockets', 'Coffee Script', 'SCSS', 'gem', 'bundler', 'rvm', 'asset pipeline', 'ActiveRecord'],
   },
   {
     name: 'Node.js',
-    vocab: ['streams', 'Event Emitter', 'Ryan Dahl', 'npm', 'socket.io', 'realtime'],
+    vocab: ['streams', 'Event Emitter', 'Ryan Dahl', 'npm', 'socket.io', 'realtime', 'jade', 'stylus', 'less', 'express', 'web scale', 'proxy', 'callback', 'Coffee Script', 'nodeup', 'browserify'],
   }
 ], function(g) {
   g.id = slugs(g.name)
